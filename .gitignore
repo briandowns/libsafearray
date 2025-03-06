@@ -1,0 +1,14 @@
+./*.c
+./*.h
+*.o
+*.so
+*.dynlib
+
+.vscode/*
+
+bin
+test/test
+.vscode
+example
+a.out
+lsa
