@@ -1,28 +1,28 @@
 CC = cc
 
-BINDIR := bin
-BINARY := libsafearray
+NAME = libsafearray
+
 PREFIX := /usr/local
 
 VERSION = v0.1.0
-GIT_SHA = $(shell git rev-parse HEAD)
-LDFLAGS = -ldflags "-X main.gitSHA=$(GIT_SHA) -X main.version=$(VERSION) -X main.name=$(BINARY)"
+CFLAGS  = -std=c17 -O3 -fPIC -Wall -Wextra
+LDFLAGS = 
 
 OS := $(shell uname)
 
-$(BINDIR)/$(BINARY): clean
-	$(CC) build $(LDFLAGS) -o $@
-
-.PHONY: test
-test:
-	// 
-	cd test && \
-	make
+.PHONY: tests clean
+tests:
+	cd $@ && make && ./tests
 
 .PHONY: clean
 clean:
-	rm -f $(BINARY)
-	rm -f $(BINDIR)/*
+	rm -f $(NAME).dylib
+	rm -f $(NAME).so
+	rm -f tests/tests
+
+.PHONY: example
+example: clean
+	$(CC) -o $@ example.c $(CFLAGS) $(LDFLAGS)
 
 .PHONY: install
 install: clean
